@@ -46,4 +46,11 @@ async def read_model(model_name: MLName):
 @app.get("/models/int/{model_name}")
 async def read_int_model(model_name: IntMLName):
     print(model_name.value, model_name)
+    if model_name in list(IntMLName):
+        print("이곳으로 통과")
     return {"ur model": model_name}
+
+
+@app.get("/files/{file_path:path}")
+async def read_file(file_path: str):
+    return {"file_path": file_path}

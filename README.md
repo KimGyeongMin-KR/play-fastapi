@@ -38,6 +38,9 @@ async def root():
 ## 경로 매개변수
 - 매개 변수의 타입을 제한할 수 있다. 타입을 지정하지 않는다면 str값으로 인식한다.
 - 경로 동작(API)을 만들 때 고정 경로를 갖고 있는 상황에는 순서를 먼저 지정함으로써 해결할 수 있다.
+- Enum 클래스를 생성하여 들어올 수 있는 매개변수를 정의할 수 있다.
+- :path를 경로에 지정함으로써 path전체를 가져올 수 있다.
+- 데이터 검증, API 주석과 자동완성, 데이터 파싱 등 한번에 선언으로 도와준다.
 
 <details>
 <summary>설명 예제</summary> 
@@ -125,5 +128,20 @@ async def read_int_model(model_name: IntMLName):
 ```
 1. 경로에 직접 타입을 지정하는 것 ({model_name:int})
 2. IntEnum을 상속 받는것 (class IntMLName(IntEnum))
+
+
+### 경로 변환기:path
+- /files/{file_path}가 있는 경로에서 home/useranem/my.txt 처럼 path에 들어있는 file_path자체가 필요할 때, /files/home/username/my.txt
+- Starlette의 내부 도구 중 하나를 사용하여 가져올 수 있다.
+
+```python
+@app.get("/files/{file_path:path}")
+async def read_file(file_path: str):
+    return {"file_path": file_path}
+```
+- 매개변수가 /home/username/my.txt를 갖고 있어 슬래시로 시작(/)해야 할 수 있다.
+
+- 이 경우 URL은: /files//home/username/my.txt이며 files과 home 사이에 이중 슬래시(//)가 생긴다.
+
 </div>    
 </details>
